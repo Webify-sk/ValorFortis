@@ -22,4 +22,5 @@ jobs:
         port: 21
         protocol: ftp
         passive: true
+        timeout: 120000
         server-dir: /valorfortis.cz/web/
