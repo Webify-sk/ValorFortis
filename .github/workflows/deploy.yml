@@ -21,3 +21,4 @@ jobs:
           protocol: ftp
           port: 21
           timeout: 120000
+          server-dir: /valorfortis.cz/web/
