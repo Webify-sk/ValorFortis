@@ -21,5 +21,3 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21
         server-dir: valorfortis.cz/web/
-        # Websupport niekedy vyžaduje vypnutie kontroly certifikátu, ak je nastavený zdieľaný hosting
-        dangerously-allow-unverified-ssl: true
