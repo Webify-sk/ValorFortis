@@ -1,0 +1,705 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --content-max-width: 1280px;
+    --content-padding: 30px;
+    --side-spacing: max(var(--content-padding), calc((100% - var(--content-max-width)) / 2));
+    --sky-filter-color: rgb(87, 97, 186);
+}
+
+body,
+html {
+    height: 100%;
+    background-color: #000;
+    font-family: "verdana-pro", sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "museo-slab", serif;
+    font-weight: 700;
+}
+
+body.home-page {
+    overflow-y: hidden;
+}
+
+.intro-video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.intro-video-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#intro-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Header Styles */
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px var(--side-spacing);
+    display: flex;
+    justify-content: flex-start;
+    gap: 60px;
+    align-items: center;
+    z-index: 10000;
+    /* Increased layer to ensure header/menu are on top of .hero-content's z-index 10 */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    z-index: 10;
+}
+
+.logo img {
+    height: 75px;
+    /* Larger for impact */
+    width: auto;
+    display: block;
+}
+
+.logo .reg-mark {
+    font-size: 11px;
+    color: #fff;
+    align-self: flex-end;
+    margin-bottom: 28px;
+    margin-left: 2px;
+    font-family: "verdana-pro", sans-serif;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+nav a {
+    font-family: "verdana-pro", sans-serif;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    font-style: normal;
+    transition: opacity 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+    opacity: 0.7;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Fill container to be visible below the city */
+    object-fit: cover;
+    object-position: bottom;
+    /* Keep water at the bottom */
+    z-index: 0;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Fill container */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.sky-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45vh;
+    background: linear-gradient(to bottom, var(--sky-filter-color) 0%, transparent 100%);
+    z-index: 1;
+    /* Above video-overlay (0) but below hero-layer (2) */
+    mix-blend-mode: overlay;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.hero-layer {
+    position: absolute;
+    top: 0;
+    /* Fotka Prahy prilepená úplne navrchu */
+    left: 0;
+    width: 100%;
+    height: 70vh;
+    /* Vrátené na 70vh, aby sa fotka nerozťahovala */
+    /* Keep the desired city proportions */
+    object-fit: cover;
+    object-position: top;
+    /* Ukotvené k vrchu, aby sa neorezávalo nebo */
+    z-index: 2;
+    pointer-events: none;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+.city-bottom-fade {
+    position: absolute;
+    top: 50vh;
+    /* Start fading above the cut at 70vh */
+    left: 0;
+    width: 100%;
+    height: 25vh;
+    /* 80% of 25vh is 20vh, meaning the gradient hits the highest opacity at exactly 70vh, while ending at 75vh */
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.95) 80%, transparent 100%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+.pop-layer-wrapper {
+    position: absolute;
+    bottom: 1vh;
+    /* Ešte viac posunuté nižšie podľa požiadavky (z 4vh na 1vh) */
+    left: 0;
+    width: 100%;
+    z-index: 4;
+    pointer-events: none;
+    /* Wrapper is now the ONLY thing that moves */
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+    transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* .pop-layer removed as the tree image is no longer used */
+
+/* Moving black gradient that stays attached to the bushes */
+.pop-gradient {
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    width: 100%;
+    height: 400px;
+    /* Predĺžený čierny prechod, aby sa vytvorilo hladké napojenie pri zdvihnutí kríka */
+    background: linear-gradient(to top, #000 0%, #000 25%, transparent 100%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 180px;
+    /* Moved slightly higher */
+    left: var(--side-spacing);
+    z-index: 10;
+    pointer-events: auto;
+    /* Allow interactions with the link */
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
+}
+
+/* Hide on non-home pages AND during transition away from home page */
+body:not(.home-page) .hero-content,
+body.nav-to-subpage .hero-content,
+body.page-leaving .hero-content {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    /* Move it up slightly as it fades */
+    pointer-events: none;
+}
+
+.hero-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 40px;
+    font-style: normal;
+    color: rgb(255, 255, 255);
+    margin: 0;
+}
+
+body:not(.home-page) .hero-content h1 {
+    font-weight: 600;
+}
+
+.discover-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.discover-link:hover {
+    opacity: 1;
+}
+
+.discover-link .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+}
+
+.discover-link .icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.content-section {
+    position: relative;
+    z-index: 5;
+    /* Increased to be above pop-layer-wrapper which is 4 */
+    background: #000;
+    margin-top: -0.5vh;
+    /* Prispôsobené pre bottom: 1vh */
+    padding: 40px var(--side-spacing) 100px;
+    min-height: 650px;
+}
+
+/* Base States & Transitions (Content Section also needs base transition) */
+.pop-layer-wrapper,
+.content-section {
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    backface-visibility: hidden;
+    transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.kontakt-page:not(.page-leaving) .pop-layer-wrapper,
+.kontakt-page:not(.page-leaving) .content-section,
+.info-page:not(.page-leaving) .pop-layer-wrapper,
+.info-page:not(.page-leaving) .content-section {
+    transform: translate3d(0, -50vh, 0);
+    /* Posunuté na -50vh podľa požiadavky */
+}
+
+/* Fix "dead" scroll space caused by the transform */
+.kontakt-page:not(.page-leaving) .content-section,
+.info-page:not(.page-leaving) .content-section,
+body.nav-to-subpage .content-section {
+    margin-bottom: -50vh;
+}
+
+/* Navigation State Drivers (Force the shift during leaving phase) */
+body.nav-to-home .pop-layer-wrapper,
+body.nav-to-home .content-section {
+    transform: translate3d(0, 0, 0) !important;
+}
+
+body.nav-to-subpage .pop-layer-wrapper,
+body.nav-to-subpage .content-section {
+    transform: translate3d(0, -50vh, 0) !important;
+    /* Dorovnané s výškou pre kontakt-page (pôvodne -55vh) */
+}
+
+/* Safety: Force duration during leaving phase */
+body.page-leaving .pop-layer-wrapper,
+body.page-leaving .content-section {
+    transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* If we came from home to o-nas, it should slide up */
+/* If we go from o-nas to home, it should slide down */
+
+/* Animations for nested content in content-section */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-container {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+}
+
+.content-container h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 56px;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    opacity: 0;
+}
+
+.content-container p {
+    font-size: 20px;
+    line-height: 1.8;
+    color: #fff;
+    opacity: 0;
+}
+
+.page-loaded .content-container h1 {
+    animation: fadeIn 1.5s ease-out 0.5s both;
+}
+
+.page-loaded .content-container p {
+    animation: fadeIn 1.5s ease-out 0.8s both;
+}
+
+.page-loaded .contact-divider {
+    animation: fadeIn 1.5s ease-out 0.65s both;
+}
+
+.contact-details a {
+    color: #ffffff;
+    text-decoration: underline;
+    transition: opacity 0.3s;
+}
+
+.contact-details a:hover {
+    opacity: 0.7;
+}
+
+.contact-container h1 {
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: normal;
+    margin-bottom: 0;
+}
+
+.text-container h1 {
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 40px;
+    letter-spacing: normal;
+    margin-bottom: 40px;
+}
+
+.contact-divider {
+    border: none;
+    border-top: 1px solid #ffffff;
+    margin: 20px auto 20px;
+    width: 100%;
+    max-width: var(--content-max-width);
+    opacity: 0;
+}
+
+.contact-info {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #fff;
+}
+
+.contact-info .company-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.contact-spacer {
+    height: 40px;
+}
+
+.contact-info a {
+    color: rgb(125, 122, 255);
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.contact-info a:hover {
+    opacity: 0.8;
+}
+
+/* Burger Menu Button */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10001;
+    /* Must be higher than nav's 10000 to be visible when menu is open */
+    padding: 0;
+}
+
+.burger-menu span {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: left center;
+}
+
+/* Burger Animation to X */
+.header-nav-active .burger-menu span:nth-child(1) {
+    transform: rotate(38deg);
+}
+
+.header-nav-active .burger-menu span:nth-child(2) {
+    width: 0%;
+    opacity: 0;
+}
+
+.header-nav-active .burger-menu span:nth-child(3) {
+    transform: rotate(-38deg);
+}
+
+
+
+
+/* Footer Styles */
+.site-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background: transparent;
+    padding: 0 var(--side-spacing);
+    font-size: 14px;
+    color: #ffffff;
+    width: 100%;
+    transform: none !important;
+    pointer-events: auto;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-content {
+    border-top: 1px solid rgba(125, 122, 255, 0.6);
+    padding: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.page-leaving .site-footer {
+    opacity: 0;
+    transform: translateY(20px) !important;
+}
+
+body.page-loaded .site-footer {
+    opacity: 1;
+    transform: translateY(0) !important;
+}
+
+body:not(.home-page) .site-footer {
+    background: #000;
+}
+
+.site-footer .footer-left {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.site-footer .footer-right {
+    color: #ffffff;
+    opacity: 0.6;
+}
+
+.site-footer .footer-right a {
+    color: rgb(125, 122, 255);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.site-footer .footer-right a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+    :root {
+        --content-padding: 10px;
+    }
+
+    header {
+        padding: 20px var(--side-spacing);
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .content-section {
+        padding: 40px var(--side-spacing) 140px;
+    }
+
+    .burger-menu {
+        display: flex;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: right 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 9999;
+        /* Lowered from 10000 so the header/burger at 10000 stays on top */
+        pointer-events: none;
+    }
+
+    .header-nav-active nav {
+        right: 0;
+        pointer-events: auto;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    nav a {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+
+    .hero-content {
+        left: var(--side-spacing);
+        /* Zmenšené odsadenie, aby bolo viac miesta zľava */
+        right: var(--side-spacing);
+        /* Aj sprava */
+        bottom: 180px;
+    }
+
+    .hero-content h1 {
+        font-size: 36px;
+        /* Zmenšené písmo pre mobily */
+        word-break: break-word;
+        /* Poistka, aby silou mocou zalomilo slovo, ak je extrémne dlhé */
+    }
+
+    .content-container h1 {
+        font-size: 36px;
+        margin-bottom: 25px;
+    }
+
+    #intro-video {
+        object-position: bottom right;
+    }
+
+    .hero-layer {
+        height: 55vh;
+        object-position: top right;
+    }
+
+    .city-bottom-fade {
+        top: 30vh;
+        height: 70vh;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 15%, #000 35.7%, rgba(0, 0, 0, 0.4) 85%, transparent 100%);
+    }
+
+    .pop-layer {
+        filter: brightness(0.4);
+    }
+
+    .pop-layer-wrapper {
+        bottom: 1vh;
+    }
+
+    .pop-gradient {
+        height: 200px;
+        bottom: -50px;
+    }
+
+    .kontakt-page:not(.page-leaving) .pop-layer-wrapper,
+    .kontakt-page:not(.page-leaving) .content-section,
+    .info-page:not(.page-leaving) .pop-layer-wrapper,
+    .info-page:not(.page-leaving) .content-section {
+        transform: translate3d(0, -50vh, 0);
+    }
+
+    body.nav-to-subpage .pop-layer-wrapper,
+    body.nav-to-subpage .content-section {
+        transform: translate3d(0, -50vh, 0) !important;
+    }
+
+    .kontakt-page:not(.page-leaving) .content-section,
+    .info-page:not(.page-leaving) .content-section,
+    body.nav-to-subpage .content-section {
+        margin-bottom: -50vh;
+    }
+
+    .site-footer {
+        position: static;
+        padding: 0 var(--side-spacing);
+        text-align: center;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 0;
+    }
+
+    /* Fixed footer ONLY on home-page for mobile */
+    body.home-page .site-footer {
+        position: fixed;
+    }
+}
