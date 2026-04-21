@@ -1,102 +1,108 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sk">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VALOR FORTIS</title>
-    <link rel="stylesheet" href="https://use.typekit.net/ipg2kqn.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=48">
-    <link rel="icon" type="image/png" href="favicon.png">
-</head>
+    <link rel="stylesheet" href="https://use.typekit.net/ipg2kqn.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=48" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+  </head>
 
-<body class="kontakt-page">
-
+  <body class="kontakt-page">
     <section class="hero-container">
-        <header>
-            <a href="index.html" class="logo">
-                <img src="VF_white.png" alt="Valo Praha logo">
-                <span class="reg-mark">&reg;</span>
-            </a>
-            <button class="burger-menu" id="burgerToggle" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Domov</a></li>
-                    <li><a href="kontakt.html" class="active">Kontakt</a></li>
+      <header>
+        <a href="index.html" class="logo">
+          <img src="VF_white.png" alt="Valo Praha logo" />
+          <span class="reg-mark">&reg;</span>
+        </a>
+        <button class="burger-menu" id="burgerToggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav>
+          <ul>
+            <li><a href="index.html">Domov</a></li>
+            <li><a href="kontakt.html" class="active">Kontakt</a></li>
+          </ul>
+        </nav>
+      </header>
 
-                </ul>
-            </nav>
-        </header>
+      <!-- Video Layer (Background) -->
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="./1730805_River_Stream_1920x1080.mp4" type="video/mp4" />
+        Prehliadač nepodporuje video tag.
+      </video>
 
-        <!-- Video Layer (Background) -->
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="./1730805_River_Stream_1920x1080.mp4" type="video/mp4">
-            Prehliadač nepodporuje video tag.
-        </video>
+      <!-- Video Overlay -->
+      <div class="video-overlay"></div>
+      <!-- Sky Filter Overlay -->
+      <div class="sky-filter"></div>
 
-        <!-- Video Overlay -->
-        <div class="video-overlay"></div>
-        <!-- Sky Filter Overlay -->
-        <div class="sky-filter"></div>
+      <!-- Image Layer (Foreground) -->
+      <img src="./Valor - Hero (5).png" alt="Hero Layer" class="hero-layer" />
+      <div class="city-bottom-fade"></div>
 
-        <!-- Image Layer (Foreground) -->
-        <img src="./Valor - Hero (5).png" alt="Hero Layer" class="hero-layer">
-        <div class="city-bottom-fade"></div>
+      <!-- Bottom Pop Layer (Foreground) -->
+      <div class="pop-layer-wrapper">
+        <div class="pop-gradient"></div>
+      </div>
 
-        <!-- Bottom Pop Layer (Foreground) -->
-        <div class="pop-layer-wrapper">
-            <div class="pop-gradient"></div>
-        </div>
-
-        <div class="hero-content">
-            <h1>Sme tu pre vás</h1>
-            <a href="#" class="discover-link">
-                <span class="icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="m6 9 6 6 6-6" />
-                    </svg>
-                </span>
-                Kontaktujte nás
-            </a>
-        </div>
+      <div class="hero-content">
+        <h1>Sme tu pre vás</h1>
+        <a href="#" class="discover-link">
+          <span class="icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+          Kontaktujte nás
+        </a>
+      </div>
     </section>
 
     <!-- Content Section -->
     <section class="content-section">
-        <div class="content-container contact-container">
-            <h1>Kontakt</h1>
-            <hr class="contact-divider">
-            <div class="contact-info">
-                <p class="company-name">VALOR FORTIS a.s.</p>
-                <p>Vladislavova 17, 110 00 Praha</p>
-                <p>Česká republika</p>
+      <div class="content-container contact-container">
+        <h1>Kontakt</h1>
+        <hr class="contact-divider" />
+        <div class="contact-info">
+          <p class="company-name">VALOR FORTIS a.s.</p>
+          <p>Vladislavova 17, 110 00 Praha</p>
+          <p>Česká republika</p>
 
-                <div class="contact-spacer"></div>
+          <div class="contact-spacer"></div>
 
-                <p>T &nbsp;<a href="tel:+420226886690">+420 226 886 690</a></p>
-                <p>E &nbsp;<a href="mailto:info@valorfortis.cz">info@valorfortis.cz</a></p>
-            </div>
+          <p>T &nbsp;<a href="tel:+420226886690">+420 226 886 690</a></p>
+          <p>
+            E &nbsp;<a href="mailto:info@valorfortis.cz">info@valorfortis.cz</a>
+          </p>
         </div>
+      </div>
     </section>
 
     <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                &copy; 2026 VALOR FORTIS a.s.
-            </div>
-            <div class="footer-right">
-                Nesbíráme o Vás žádné osobní údaje a cookies | <a href="info.html">Právní informace</a>
-            </div>
+      <div class="footer-content">
+        <div class="footer-left">&copy; 2026 VALOR FORTIS a.s.</div>
+        <div class="footer-right">
+          Nesbíráme o Vás žádné osobní údaje a cookies. |
+          <a href="info.html">Právní informace</a>
         </div>
+      </div>
     </footer>
 
     <script src="main.js"></script>
-</body>
-
+  </body>
 </html>

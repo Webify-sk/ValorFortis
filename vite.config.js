@@ -5,7 +5,7 @@ export default defineConfig({
   root: 'src/spa-shell',
   plugins: [vue()],
   build: {
-    outDir: '../../dist/vue',
-    emptyOutDir: false
+    outDir: '../../dist',
+    emptyOutDir: true
   }
 })
