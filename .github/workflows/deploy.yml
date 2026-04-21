@@ -15,4 +15,4 @@ jobs:
       - name: FTP Deploy with lftp
         run: |
           sudo apt-get update && sudo apt-get install lftp -y
-          lftp -c "set ftp:ssl-allow yes; set ftp:ssl-force true; set ssl:verify-certificate no; open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp.valorfortis.cz; mirror -Rnev --exclude .git/ --exclude .github/ ./ /valorfortis.cz/web/"
+          lftp -d -c "set net:timeout 10; set net:max-retries 2; set ftp:ssl-allow no; set ftp:passive-mode true; open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp.valorfortis.cz; mirror -Rnev --exclude .git/ --exclude .github/ ./ /valorfortis.cz/web/"
