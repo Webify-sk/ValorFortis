@@ -12,13 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ftp.valorfortis.cz
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          timeout: 120000
-          server-dir: /valorfortis.cz/web/
+      - name: FTP Deploy with lftp
+        run: |
+          sudo apt-get update && sudo apt-get install lftp -y
+          lftp -c "set ftp:ssl-allow yes; set ftp:ssl-force true; set ssl:verify-certificate no; open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp.valorfortis.cz; mirror -Rnev --exclude .git/ --exclude .github/ ./ /valorfortis.cz/web/"
