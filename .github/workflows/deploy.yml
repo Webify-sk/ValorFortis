@@ -13,6 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: FTP Deploy with lftp
+        timeout-minutes: 2
         run: |
           sudo apt-get update && sudo apt-get install lftp -y
-          lftp -d -c "set ftp:ssl-allow no; debug 3; open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp.valorfortis.cz; mirror -Rnev --exclude .git/ --exclude .github/ ./ /valorfortis.cz/web/"
+          lftp -d -c "set net:timeout 10; set net:max-retries 2; set ftp:ssl-allow no; set ftp:passive-mode true; debug 3; open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftp.valorfortis.cz; mirror -Rnev --exclude .git/ --exclude .github/ ./ /valorfortis.cz/web/"
