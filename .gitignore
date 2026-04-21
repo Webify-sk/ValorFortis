@@ -7,5 +7,9 @@ desktop.ini
 .vscode/
 .idea/
 
+# Node / build
+node_modules/
+dist/
+
 # Large files (optional - keeping them for now as they are part of the site)
 # *.mp4
