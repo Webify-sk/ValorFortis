@@ -15,13 +15,13 @@ const handleNavigate = async (to) => {
 <template>
   <footer class="site-footer">
     <div class="footer-content">
-      <div class="footer-left">&copy; 2026 VALOR FORTIS a.s.</div>
+      <div class="footer-left">{{ $t('footer.copyright') }}</div>
       <div class="footer-right">
-        Nesbíráme o Vás žádné osobní údaje a cookies. |
+        {{ $t('footer.privacyNotice') }} |
         <a
           :href="router.resolve('/info').href"
           @click.prevent="handleNavigate('/info')"
-          >Právní informace</a
+          >{{ $t('footer.legalInfo') }}</a
         >
       </div>
     </div>

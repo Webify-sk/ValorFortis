@@ -1,11 +1,16 @@
 <script setup>
-import { inject } from "vue";
+import { computed, inject } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
+
+const LOCALE_STORAGE_KEY = "vf-locale";
+const SUPPORTED_LOCALES = ["cs", "en"];
 
 const menuOpen = defineModel("menuOpen", { type: Boolean, default: false });
 const navigateWithTransition = inject("navigateWithTransition");
 const route = useRoute();
 const router = useRouter();
+const { locale } = useI18n();
 
 const handleNavigate = async (to) => {
   if (navigateWithTransition) {
@@ -14,12 +19,24 @@ const handleNavigate = async (to) => {
 };
 
 const hrefFor = (to) => router.resolve(to).href;
+
+const nextLocale = computed(() => (locale.value === "cs" ? "en" : "cs"));
+const inactiveLanguageLabel = computed(() => nextLocale.value.toUpperCase());
+
+const switchLocale = () => {
+  if (!SUPPORTED_LOCALES.includes(nextLocale.value)) {
+    return;
+  }
+
+  locale.value = nextLocale.value;
+  window.localStorage.setItem(LOCALE_STORAGE_KEY, locale.value);
+};
 </script>
 
 <template>
   <header>
     <a :href="hrefFor('/')" class="logo" @click.prevent="handleNavigate('/')">
-      <img src="../../VF_white.png" alt="Valor Fortis logo" />
+      <img src="../../VF_white.png" :alt="$t('nav.logoAlt')" />
       <span class="reg-mark">&reg;</span>
     </a>
 
@@ -27,7 +44,7 @@ const hrefFor = (to) => router.resolve(to).href;
       id="burgerToggle"
       class="burger-menu"
       type="button"
-      aria-label="Menu"
+      :aria-label="$t('nav.menuAriaLabel')"
       @click="menuOpen = !menuOpen"
     >
       <span></span>
@@ -42,7 +59,7 @@ const hrefFor = (to) => router.resolve(to).href;
             :href="hrefFor('/')"
             :class="{ active: route.path === '/' }"
             @click.prevent="handleNavigate('/')"
-            >Domov</a
+            >{{ $t('nav.home') }}</a
           >
         </li>
         <li>
@@ -54,7 +71,7 @@ const hrefFor = (to) => router.resolve(to).href;
                 route.path === '/dokumenty.html',
             }"
             @click.prevent="handleNavigate('/dokumenty')"
-            >Dokumenty</a
+            >{{ $t('nav.documents') }}</a
           >
         </li>
         <li>
@@ -65,7 +82,7 @@ const hrefFor = (to) => router.resolve(to).href;
                 route.path === '/kariera' || route.path === '/kariera.html',
             }"
             @click.prevent="handleNavigate('/kariera')"
-            >Kariéra</a
+            >{{ $t('nav.career') }}</a
           >
         </li>
         <li>
@@ -76,8 +93,17 @@ const hrefFor = (to) => router.resolve(to).href;
                 route.path === '/kontakt' || route.path === '/kontakt.html',
             }"
             @click.prevent="handleNavigate('/kontakt')"
-            >Kontakt</a
+            >{{ $t('nav.contact') }}</a
           >
+        </li>
+        <li class="language-switch-item">
+          <button
+            type="button"
+            class="nav-lang-toggle"
+            @click="switchLocale"
+          >
+            | {{ inactiveLanguageLabel }}
+          </button>
         </li>
       </ul>
     </nav>

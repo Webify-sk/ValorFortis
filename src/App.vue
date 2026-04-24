@@ -1,13 +1,18 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import HeaderNav from './components/HeaderNav.vue'
 import HeroSection from './components/HeroSection.vue'
 import IntroOverlay from './components/IntroOverlay.vue'
 import SiteFooter from './components/SiteFooter.vue'
 
+const LOCALE_STORAGE_KEY = 'vf-locale'
+const SUPPORTED_LOCALES = ['cs', 'en']
+
 const route = useRoute()
 const router = useRouter()
+const { t, locale } = useI18n()
 const menuOpen = ref(false)
 const introVisible = ref(false)
 const currentBodyClass = ref(route.meta.bodyClass ?? 'home-page')
@@ -25,7 +30,7 @@ const bodyClasses = computed(() => [
 const showIntro = computed(() => route.name === 'home' && introVisible.value)
 
 const syncDocumentState = async () => {
-  document.title = route.meta.title ?? 'VALOR FORTIS'
+  document.title = t(route.meta.titleKey ?? 'routes.home.title')
   document.body.className = bodyClasses.value.join(' ')
   await nextTick()
 }
@@ -89,7 +94,17 @@ watch(menuOpen, () => {
   document.body.className = bodyClasses.value.join(' ')
 })
 
+watch(locale, async () => {
+  window.localStorage.setItem(LOCALE_STORAGE_KEY, locale.value)
+  await syncDocumentState()
+})
+
 onMounted(() => {
+  const storedLocale = window.localStorage.getItem(LOCALE_STORAGE_KEY)
+  if (storedLocale && SUPPORTED_LOCALES.includes(storedLocale)) {
+    locale.value = storedLocale
+  }
+
   introVisible.value = !sessionStorage.getItem('introPlayed')
   const videoElement = document.querySelector('.hero-video')
   if (videoElement instanceof HTMLVideoElement) {

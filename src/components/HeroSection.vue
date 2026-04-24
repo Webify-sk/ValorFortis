@@ -1,5 +1,6 @@
 <script setup>
 import { computed, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -9,6 +10,7 @@ const props = defineProps({
   }
 })
 
+const { t } = useI18n()
 const navigateWithTransition = inject('navigateWithTransition')
 const router = useRouter()
 
@@ -17,7 +19,12 @@ const isInternalRoute = computed(() => {
   return typeof target === 'string' && target.startsWith('/')
 })
 
-const heroTitleLines = computed(() => String(props.route.meta.heroTitle ?? '').split('\n'))
+const heroTitleLines = computed(() => {
+  const title = t(props.route.meta.heroTitleKey ?? 'routes.home.heroTitle')
+  return String(title).split('\n')
+})
+
+const heroLinkLabel = computed(() => t(props.route.meta.heroLinkLabelKey ?? 'routes.home.heroLinkLabel'))
 const internalHref = computed(() => router.resolve(props.route.meta.heroLinkTarget ?? '/').href)
 
 const handleNavigate = async (to) => {
@@ -38,12 +45,12 @@ const handleNavigate = async (to) => {
     poster="../../hero-fallback.jpg"
   >
     <source src="../../1730805_River_Stream_1920x1080.mp4" type="video/mp4">
-    Prehliadač nepodporuje video tag.
+    {{ $t('hero.videoNotSupported') }}
   </video>
 
   <div class="video-overlay"></div>
   <div class="sky-filter"></div>
-  <img src="../../Valor - Hero (5).png" alt="Hero Layer" class="hero-layer">
+  <img src="../../Valor - Hero (5).png" :alt="$t('hero.layerAlt')" class="hero-layer">
   <div class="city-bottom-fade"></div>
 
   <div class="pop-layer-wrapper">
@@ -69,7 +76,7 @@ const handleNavigate = async (to) => {
           <path d="m6 9 6 6 6-6" />
         </svg>
       </span>
-      {{ route.meta.heroLinkLabel }}
+      {{ heroLinkLabel }}
     </a>
 
     <a
@@ -82,7 +89,7 @@ const handleNavigate = async (to) => {
           <path d="m6 9 6 6 6-6" />
         </svg>
       </span>
-      {{ route.meta.heroLinkLabel }}
+      {{ heroLinkLabel }}
     </a>
   </div>
 </template>
