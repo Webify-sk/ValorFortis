@@ -1,22 +1,22 @@
 <script setup>
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import publicImageUrl from "../../public/assets/images/documents/public.png";
 
+const { t } = useI18n();
 const publicOpen = ref(false);
 const activeSection = ref(null);
 
-const sections = [
+const sections = computed(() => [
   {
     id: "messages",
-    label: "Oznámenia",
-    links: [
-      { href: "#", label: "Placeholder dokumentu" },
-    ],
+    label: t("documents.sectionMessages"),
+    links: [{ href: "#", label: t("documents.placeholderDocument") }],
   },
-];
+]);
 
 const activeContent = computed(() => {
-  return sections.find((section) => section.id === activeSection.value) ?? null;
+  return sections.value.find((section) => section.id === activeSection.value) ?? null;
 });
 
 const togglePublic = () => {
@@ -30,11 +30,11 @@ const togglePublic = () => {
 <template>
   <section id="obsah" class="content-section">
     <div class="content-container text-container">
-      <h1>Dokumenty</h1>
+      <h1>{{ $t('documents.title') }}</h1>
       <hr class="contact-divider" />
 
       <div class="documents-layout documents-layout-three">
-        <nav class="documents-column documents-column-root documents-nav" aria-label="Dokumenty">
+        <nav class="documents-column documents-column-root documents-nav" :aria-label="$t('documents.navAriaLabel')">
           <ul>
             <li>
               <button
@@ -43,14 +43,14 @@ const togglePublic = () => {
                 :class="{ selected: publicOpen }"
                 @click="togglePublic"
               >
-                Povinné zverejňovanie
+                {{ $t('documents.mandatoryDisclosure') }}
               </button>
 
               <transition name="expand">
                 <img
                   v-if="publicOpen"
                   :src="publicImageUrl"
-                  alt="Povinné zverejňovanie"
+                  :alt="$t('documents.mandatoryDisclosureAlt')"
                   class="documents-nav-image"
                 />
               </transition>
