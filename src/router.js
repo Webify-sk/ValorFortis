@@ -4,6 +4,7 @@ import DocumentsView from "./views/DocumentsView.vue";
 import CareerView from "./views/CareerView.vue";
 import ContactView from "./views/ContactView.vue";
 import InfoView from "./views/InfoView.vue";
+import LegalDisclaimerView from "./views/LegalDisclaimerView.vue";
 
 const routes = [
   {
@@ -68,6 +69,19 @@ const routes = [
       titleKey: "routes.info.title",
       heroTitleKey: "routes.info.heroTitle",
       heroLinkLabelKey: "routes.info.heroLinkLabel",
+      heroLinkTarget: "#obsah",
+    },
+  },
+  {
+    path: "/ld",
+    alias: ["/ld.html"],
+    name: "legal-disclaimer",
+    component: LegalDisclaimerView,
+    meta: {
+      bodyClass: "ld-page",
+      titleKey: "routes.legalDisclaimer.title",
+      heroTitleKey: "routes.legalDisclaimer.heroTitle",
+      heroLinkLabelKey: "routes.legalDisclaimer.heroLinkLabel",
       heroLinkTarget: "#obsah",
     },
   },

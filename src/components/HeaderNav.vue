@@ -62,7 +62,8 @@ const switchLocale = () => {
             >{{ $t('nav.home') }}</a
           >
         </li>
-        <li>
+        <!-- Temporarily hidden from the main menu. Route stays available. -->
+        <li v-if="false">
           <a
             :href="hrefFor('/dokumenty')"
             :class="{
