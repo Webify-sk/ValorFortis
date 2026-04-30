@@ -46,7 +46,7 @@ const messages = {
       paragraph1:
         "VALOR FORTIS a.s. je nezávislá společnost a není propojena se společností SIX Financial Information AG ani s jejími ochrannými známkami (například VALORDATA).",
       paragraph2:
-        "VALOR FORTIS a.s. je nezávislá společnost a není propojena se společností BNP Paribas Fortis.",
+        "VALOR FORTIS a.s. je nezávislá společnost která není propojena se společností BNP Paribas Fortis.",
     },
     legalDisclaimer: {
       title: "Právní Upozornění",
@@ -132,7 +132,7 @@ const messages = {
       paragraph1:
         "VALOR FORTIS a.s. is an independent company and is not affiliated with SIX Financial Information AG or its trademarks (e.g., VALORDATA).",
       paragraph2:
-        "VALOR FORTIS a.s. is an independent company and is not affiliated with BNP Paribas Fortis.",
+        "VALOR FORTIS a.s. is an independent company that is not affiliated with BNP Paribas Fortis.",
     },
     legalDisclaimer: {
       title: "Legal Disclaimer",
