@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import meetingInviteUrl from "../../public/assets/documents/public/messages/Pozvanka na Valnu hromadu.pdf";
 import publicImageUrl from "../../public/assets/images/documents/public.png";
 
 const { t } = useI18n();
@@ -11,7 +12,12 @@ const sections = computed(() => [
   {
     id: "messages",
     label: t("documents.sectionMessages"),
-    links: [{ href: "#", label: t("documents.placeholderDocument") }],
+    links: [
+      {
+        href: meetingInviteUrl,
+        label: t("documents.placeholderDocument"),
+      },
+    ],
   },
 ]);
 
@@ -87,6 +93,8 @@ const togglePublic = () => {
                 :key="item.label"
                 :href="item.href"
                 class="documents-link"
+                target="_blank"
+                rel="noopener"
               >
                 {{ item.label }}
               </a>

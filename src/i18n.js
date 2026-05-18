@@ -28,7 +28,7 @@ const messages = {
       mandatoryDisclosure: "Povinné zveřejňování",
       mandatoryDisclosureAlt: "Povinné zveřejňování",
       sectionMessages: "Oznámení",
-      placeholderDocument: "Placeholder dokumentu",
+      placeholderDocument: "Pozvánka na zasedání valné hromady",
     },
     career: {
       title: "Kariéra",

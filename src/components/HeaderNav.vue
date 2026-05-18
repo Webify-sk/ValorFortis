@@ -22,6 +22,7 @@ const hrefFor = (to) => router.resolve(to).href;
 
 const nextLocale = computed(() => (locale.value === "cs" ? "en" : "cs"));
 const inactiveLanguageLabel = computed(() => nextLocale.value.toUpperCase());
+const showDocumentsLink = computed(() => locale.value === "cs");
 
 const switchLocale = () => {
   if (!SUPPORTED_LOCALES.includes(nextLocale.value)) {
@@ -59,20 +60,18 @@ const switchLocale = () => {
             :href="hrefFor('/')"
             :class="{ active: route.path === '/' }"
             @click.prevent="handleNavigate('/')"
-            >{{ $t('nav.home') }}</a
+            >{{ $t("nav.home") }}</a
           >
         </li>
-        <!-- Temporarily hidden from the main menu. Route stays available. -->
-        <li v-if="false">
+        <li v-if="showDocumentsLink">
           <a
             :href="hrefFor('/dokumenty')"
             :class="{
               active:
-                route.path === '/dokumenty' ||
-                route.path === '/dokumenty.html',
+                route.path === '/dokumenty' || route.path === '/dokumenty.html',
             }"
             @click.prevent="handleNavigate('/dokumenty')"
-            >{{ $t('nav.documents') }}</a
+            >{{ $t("nav.documents") }}</a
           >
         </li>
         <li>
@@ -83,7 +82,7 @@ const switchLocale = () => {
                 route.path === '/kariera' || route.path === '/kariera.html',
             }"
             @click.prevent="handleNavigate('/kariera')"
-            >{{ $t('nav.career') }}</a
+            >{{ $t("nav.career") }}</a
           >
         </li>
         <li>
@@ -94,15 +93,11 @@ const switchLocale = () => {
                 route.path === '/kontakt' || route.path === '/kontakt.html',
             }"
             @click.prevent="handleNavigate('/kontakt')"
-            >{{ $t('nav.contact') }}</a
+            >{{ $t("nav.contact") }}</a
           >
         </li>
         <li class="language-switch-item">
-          <button
-            type="button"
-            class="nav-lang-toggle"
-            @click="switchLocale"
-          >
+          <button type="button" class="nav-lang-toggle" @click="switchLocale">
             | {{ inactiveLanguageLabel }}
           </button>
         </li>
