@@ -2,7 +2,6 @@
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import meetingInviteUrl from "../../public/assets/documents/public/messages/Pozvanka na Valnu hromadu.pdf";
-import publicImageUrl from "../../public/assets/images/documents/public.png";
 
 const { t } = useI18n();
 const publicOpen = ref(false);
@@ -51,15 +50,6 @@ const togglePublic = () => {
               >
                 {{ $t('documents.mandatoryDisclosure') }}
               </button>
-
-              <transition name="expand">
-                <img
-                  v-if="publicOpen"
-                  :src="publicImageUrl"
-                  :alt="$t('documents.mandatoryDisclosureAlt')"
-                  class="documents-nav-image"
-                />
-              </transition>
             </li>
           </ul>
         </nav>
